@@ -1,0 +1,32 @@
+{
+  "intent": {
+    "id": "abcdef1234",
+    "name": "블록 이름"
+  },
+  "userRequest": {
+    "timezone": "Asia/Seoul",
+    "params": {},
+    "block": {
+      "id": "abcdef1234",
+      "name": "급식조회"
+    },
+    "utterance": "오늘 급식",
+    "lang": null,
+    "user": {
+      "id": "1234567890",
+      "type": "accountId",
+      "properties": {}
+    }
+  },
+  "bot": {
+    "id": "abcdef1234",
+    "name": "급식 알리미"
+  },
+  "action": {
+    "name": "급식조회",
+    "clientExtra": null,
+    "params": {},
+    "id": "abcdef1234",
+    "detailParams": {}
+  }
+}

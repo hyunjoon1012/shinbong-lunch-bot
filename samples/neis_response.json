@@ -1,0 +1,25 @@
+{
+  "mealServiceDietInfo": [
+    {
+      "head": [
+        { "list_total_count": 1 },
+        { "RESULT": { "CODE": "INFO-000", "MESSAGE": "정상 처리되었습니다." } }
+      ]
+    },
+    {
+      "row": [
+        {
+          "ATPT_OFCDC_SC_CODE": "J10",
+          "ATPT_OFCDC_SC_NM": "경기도교육청",
+          "SD_SCHUL_CODE": "7531013",
+          "SCHUL_NM": "신봉고등학교",
+          "MMEAL_SC_CODE": "2",
+          "MMEAL_SC_NM": "중식",
+          "MLSV_YMD": "20260827",
+          "DDISH_NM": "차수수밥(서) <br/>살구쨈파이 (1.2.5.6)<br/>돈등뼈감자탕** (5.6.9.10)<br/>닭봉데리야끼구이** (4.5.6.13.15)<br/>깍두기(고) (9)",
+          "CAL_INFO": "1030.0 Kcal"
+        }
+      ]
+    }
+  ]
+}

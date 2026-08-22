@@ -1,0 +1,20 @@
+# 비밀 정보 — 절대 GitHub 에 올리면 안 됩니다
+.env
+
+# 파이썬이 자동으로 만드는 파일들
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# 가상환경 폴더
+.venv/
+venv/
+env/
+
+# 에디터 설정
+.vscode/
+.idea/
+
+# 운영체제가 만드는 파일
+.DS_Store
+Thumbs.db
