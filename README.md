@@ -109,6 +109,12 @@ python -m venv .venv
 .venv\Scripts\activate
 ```
 
+만약 `.venv\Scripts\activate` 실행시 Permission 에러가 난다면 아래 명령을 실행하고 다시 시도
+
+```bash
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+```
+
 **Mac / Linux**
 
 ```bash
