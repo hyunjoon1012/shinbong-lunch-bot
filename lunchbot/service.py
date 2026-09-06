@@ -155,7 +155,6 @@ def handle_message(text: str) -> dict:
 
     # 카카오톡에서 사용할 수 있는 dict 형태로 반환합니다.
     return make_kakao_response(메시지)
-    raise NotImplementedError
 
 
 # =========================================================
