@@ -102,19 +102,16 @@ def parse_command(text: str) -> str:
 
     이 세 단어는 Student D 의 service.py 와 맞춘 약속이라 바꾸면 안 된다.
     """
-    # TODO: Student C
-    #
-    #  1. "내일" 이라는 글자가 text 안에 있으면 "tomorrow" 를 return 한다.
-    #     힌트:  if "내일" in text:
-    #
-    #  2. "오늘" 이라는 글자가 있으면 "today" 를 return 한다.
-    #
-    #  3. 둘 다 아니면 "unknown" 을 return 한다.
-    #
-    #  ※ 순서에 주의하세요. "내일" 을 먼저 확인해야 합니다.
-    #  ※ "급식" 이라는 글자만 있어도 today 로 볼지는 자유롭게 정해도 됩니다.
-    #
-    raise NotImplementedError
+    # "내일"이 있으면 tomorrow를 반환합니다.
+    if "내일" in text:
+        return "tomorrow"
+
+    # "오늘"이 있으면 today를 반환합니다.
+    if "오늘" in text:
+        return "today"
+
+    # 둘 다 없으면 unknown을 반환합니다.
+    return "unknown"
 
 
 # =========================================================
@@ -138,16 +135,19 @@ def make_kakao_response(message: str) -> dict:
             }
         }
     """
-    # TODO: Student C
-    #
-    #  1. 위 2번에 있는 모양 그대로 dict 를 만든다.
-    #  2. "text" 자리에 message 를 넣는다.
-    #  3. 만든 dict 를 return 한다.
-    #
-    #  ※ dict 안에 list 가 있고, 그 안에 또 dict 가 있습니다.
-    #    괄호를 잘 맞춰서 써보세요.
-    #
-    raise NotImplementedError
+    # 카카오톡이 이해하는 형식으로 dict를 만들어 반환합니다.
+    return {
+        "version": "2.0",
+        "template": {
+            "outputs": [
+                {
+                    "simpleText": {
+                        "text": message
+                    }
+                }
+            ]
+        }
+    }
 
 
 # =========================================================

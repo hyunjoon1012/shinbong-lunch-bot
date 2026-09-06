@@ -129,6 +129,32 @@ def handle_message(text: str) -> dict:
     #
     #  6. make_kakao_response(메시지) 를 return 한다.
     #
+        # 명령어를 확인합니다.
+    
+    명령어 = parse_command(text)
+
+    # 모르는 명령어라면 안내 메시지를 반환합니다.
+    if 명령어 == "unknown":
+        return make_kakao_response("'오늘 급식'이라고 입력해주세요!")
+
+    # 오늘 날짜를 가져옵니다.
+    날짜 = datetime.date.today()
+
+    # 내일 급식이면 날짜를 하루 뒤로 바꿉니다.
+    if 명령어 == "tomorrow":
+        날짜 = 날짜 + datetime.timedelta(days=1)
+
+    # NEIS에서 사용하는 날짜 형식으로 바꿉니다.
+    날짜문자열 = 날짜.strftime("%Y%m%d")
+
+    # 해당 날짜의 급식 데이터를 가져옵니다.
+    급식 = get_meal(날짜문자열)
+
+    # 급식 데이터를 읽기 좋은 메시지로 만듭니다.
+    메시지 = format_meal(급식)
+
+    # 카카오톡에서 사용할 수 있는 dict 형태로 반환합니다.
+    return make_kakao_response(메시지)
     raise NotImplementedError
 
 
