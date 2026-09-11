@@ -86,28 +86,17 @@ def home():
 
 @app.route("/kakao", methods=["POST"])
 def kakao():
-    # TODO: Student D
-    #
-    #  1. request.get_json() 으로 카카오가 보낸 데이터를 받는다.
-    #     예:  body = request.get_json()
-    #
-    #  2. 사용자가 입력한 말을 꺼낸다.
-    #     예:  text = body["userRequest"]["utterance"]
-    #
-    #  3. handle_message(text) 를 불러서 답장 dict 를 만든다.
-    #
-    #  4. jsonify(답장) 을 return 한다.
-    #
-    #  ※ 아래 return 문은 아직 만들지 않았을 때를 위한 임시 코드입니다.
-    #    위 1~4 를 완성하면 이 return 문은 지우세요.
-    return jsonify({
-        "version": "2.0",
-        "template": {
-            "outputs": [
-                {"simpleText": {"text": "아직 만들지 않았습니다. app.py 의 TODO 를 채워주세요."}}
-            ]
-        },
-    })
+    # 1. 카카오가 보낸 데이터를 받는다.
+    body = request.get_json()
+
+    # 2. 사용자가 입력한 말을 꺼낸다.
+    text = body["userRequest"]["utterance"]
+
+    # 3. 답장 dict 를 만든다. (service.py 의 함수)
+    답장 = handle_message(text)
+
+    # 4. 카카오톡에 돌려준다.
+    return jsonify(답장)
 
 
 # =========================================================

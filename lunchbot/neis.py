@@ -136,33 +136,54 @@ def get_meal(date: str) -> dict:
     menu 가 빈 리스트([])이면 "급식이 없다"는 뜻으로 약속했습니다.
     이 약속은 Student B 의 format_meal 함수와 이어집니다.
     """
-    # TODO: Student A
-    #
-    #  1. 파라미터를 담을 dict 를 만든다.
-    #     Type, ATPT_OFCDC_SC_CODE, SD_SCHUL_CODE, MLSV_YMD, MMEAL_SC_CODE
-    #     NEIS_API_KEY 가 빈 문자열이 아니면 KEY 도 넣는다.
-    #
-    #  2. requests.get(NEIS_URL, params=파라미터) 로 요청하고
-    #     .json() 으로 결과를 받는다.
-    #
-    #  3. 위 3번 설명을 보고 DDISH_NM 과 CAL_INFO 를 꺼낸다.
-    #     "mealServiceDietInfo" 키가 없으면 급식이 없는 날이다.
-    #
-    #  4. DDISH_NM 을 "<br/>" 로 나누고, 알레르기 숫자와 ** 와 공백을 지운다.
-    #     힌트: 나누기        →  메뉴들 = row["DDISH_NM"].split("<br/>")
-    #     힌트: ** 지우기     →  한줄 = 한줄.replace("**", "")
-    #     힌트: 괄호부터 뒤   →  한줄 = 한줄.split("(")[0]
-    #     힌트: 앞뒤 공백     →  한줄 = 한줄.strip()
-    #
-    #  5. 날짜 "20260827" 을 "2026-08-27" 모양으로 바꾼다.
-    #     힌트: date[0:4], date[4:6], date[6:8]
-    #
-    #  6. Example output 모양의 dict 를 return 한다.
-    #
-    #  7. 급식이 없거나 오류가 나면 menu 를 [] 로 해서 return 한다.
-    #     힌트: try / except 를 사용하면 오류가 나도 프로그램이 멈추지 않는다.
-    #
-    raise NotImplementedError
+    # 1. NEIS 에 보낼 파라미터를 만든다.
+    파라미터 = {
+        "Type": "json",
+        "ATPT_OFCDC_SC_CODE": ATPT_OFCDC_SC_CODE,
+        "SD_SCHUL_CODE": SD_SCHUL_CODE,
+        "MLSV_YMD": date,
+        "MMEAL_SC_CODE": MMEAL_SC_CODE,
+    }
+    if NEIS_API_KEY != "":
+        파라미터["KEY"] = NEIS_API_KEY
+
+    # 5. "20260827" 을 "2026-08-27" 모양으로 바꾼다.
+    #    실패했을 때도 이 날짜를 써야 하므로 미리 만들어 둔다.
+    보기좋은날짜 = date[0:4] + "-" + date[4:6] + "-" + date[6:8]
+
+    # 7. try 안에서 실패하면 아래 except 로 내려가므로 프로그램이 멈추지 않는다.
+    try:
+        # 2. NEIS 에 요청을 보내고 결과를 받는다.
+        #    timeout=3 : 3초 안에 답이 없으면 포기한다.
+        #    (카카오톡은 5초 안에 답을 받아야 하기 때문이다)
+        응답 = requests.get(NEIS_URL, params=파라미터, timeout=3)
+        결과 = 응답.json()
+
+        # 3. "mealServiceDietInfo" 키가 없으면 급식이 없는 날이다.
+        if "mealServiceDietInfo" not in 결과:
+            return {"date": 보기좋은날짜, "menu": [], "calories": ""}
+
+        row = 결과["mealServiceDietInfo"][1]["row"][0]
+
+        # 4. DDISH_NM 을 한 줄씩 나누고 깔끔하게 다듬는다.
+        메뉴 = []
+        for 한줄 in row["DDISH_NM"].split("<br/>"):
+            한줄 = 한줄.replace("**", "")   # 새로 나온 메뉴 표시(**) 지우기
+            한줄 = 한줄.split(" (")[0]      # 알레르기 숫자 " (1.2.5.6)" 지우기
+            한줄 = 한줄.strip()             # 앞뒤 공백 지우기
+            if 한줄 != "":
+                메뉴.append(한줄)
+
+        # 6. 약속한 모양의 dict 를 돌려준다.
+        return {
+            "date": 보기좋은날짜,
+            "menu": 메뉴,
+            "calories": row["CAL_INFO"],
+        }
+
+    except Exception:
+        # 인터넷이 안 되거나 응답 모양이 달라도 dict 를 돌려줘야 한다.
+        return {"date": 보기좋은날짜, "menu": [], "calories": ""}
 
 
 # =========================================================
